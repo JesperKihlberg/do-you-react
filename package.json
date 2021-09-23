@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development",
+    "copysamples": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./scripts/copysamples.ps1",
     "build": "webpack --mode production",
     "test": "test"
   },

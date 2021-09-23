@@ -20,7 +20,7 @@ module.exports = (env, argv) => {
           },
         },
         {
-          test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+          test: /\.(woff(2)?|eot|ttf|otf|svg|txt|)$/,
           type: "asset/inline",
         },
       ],
@@ -46,9 +46,6 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: path.join(__dirname, "index.html"),
         favicon: "./public/images/favicon.svg",
-      }),
-      new CopyPlugin({
-        patterns: [{ from: "src/components/samples", to: "public/samples/[name].txt" }],
       }),
     ],
   };
