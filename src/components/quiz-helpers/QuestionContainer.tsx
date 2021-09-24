@@ -2,21 +2,24 @@ import { Avatar, Card, CardContent, CardHeader, Collapse, createStyles, makeStyl
 import { grey } from "@material-ui/core/colors";
 import React, { useState } from "react";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
+    card: {
+      margin: theme.spacing(2),
+      width: "100%",
+      maxWidth: "1200px",
+    },
     avatar: {
-      backgroundColor: grey[500],
+      backgroundColor: theme.palette.primary.main,
     },
   })
 );
-interface QuestionContainerProps {
-  code: string;
-}
-const QuestionContainer: React.FC<QuestionContainerProps> = ({ code, children }) => {
+interface QuestionContainerProps {}
+const QuestionContainer: React.FC<QuestionContainerProps> = ({ children }) => {
   const classes = useStyles();
   const [collapsed, setCollapsed] = useState(true);
   return (
-    <Card>
+    <Card className={classes.card}>
       <CardHeader
         onClick={() => setCollapsed(!collapsed)}
         avatar={
