@@ -1,6 +1,9 @@
-import { Avatar, Card, CardContent, CardHeader, Collapse, createStyles, makeStyles } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
+import { Button, Card, CardActions, CardContent, CardHeader, Collapse, createStyles, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
+import QuizAnswerAvatar from "./QuizAnswerAvatar";
+import { AnswerTypes } from "./QuizOption";
+import clsx from "clsx";
+import { answerStyles } from "./answerStyles";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -9,32 +12,41 @@ const useStyles = makeStyles((theme) =>
       width: "100%",
       maxWidth: "1200px",
     },
-    avatar: {
-      backgroundColor: theme.palette.primary.main,
-    },
-    content: {
-      backgroundColor: theme.palette.augmentColor(grey).main,
-    },
   })
 );
-interface QuestionContainerProps {}
-const QuestionContainer: React.FC<QuestionContainerProps> = ({ children }) => {
+interface QuestionContainerProps {
+  state: AnswerTypes;
+  last: boolean;
+  onShowNext: () => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+const QuestionContainer: React.FC<QuestionContainerProps> = ({ state, last, onShowNext, open, setOpen, children }) => {
   const classes = useStyles();
-  const [collapsed, setCollapsed] = useState(true);
+  const answerStyle = answerStyles[state];
+
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} elevation={4}>
       <CardHeader
-        onClick={() => setCollapsed(!collapsed)}
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            ?
-          </Avatar>
-        }
+        style={answerStyle.chipStyle}
+        onClick={() => setOpen(!open)}
+        avatar={<QuizAnswerAvatar state={state} defaultText={"?"} />}
         title="Question 1"
         subheader="Basic component lifecycle"
       ></CardHeader>
-      <Collapse in={collapsed} timeout="auto" unmountOnExit>
-        <CardContent className={classes.content}>{children}</CardContent>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <CardContent>{children}</CardContent>
+        <CardActions>
+          {last ? (
+            <Button variant="contained" color="secondary" onClick={() => setOpen(false)} disabled={state === "unanswered"}>
+              Show result
+            </Button>
+          ) : (
+            <Button variant="contained" color="primary" onClick={() => setOpen(false)} disabled={state === "unanswered"}>
+              Show next
+            </Button>
+          )}
+        </CardActions>
       </Collapse>
     </Card>
   );

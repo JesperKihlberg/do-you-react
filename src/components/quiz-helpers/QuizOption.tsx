@@ -1,7 +1,7 @@
 import React from "react";
-import { Avatar, Chip } from "@material-ui/core";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
+import { Chip } from "@material-ui/core";
+import { answerStyles } from "./answerStyles";
+import QuizAnswerAvatar from "./QuizAnswerAvatar";
 export type AnswerTypes = "unanswered" | "rightanswer" | "wronganswer" | "notselectedright" | "notselectedwrong";
 
 interface QuizOptionProps {
@@ -11,42 +11,28 @@ interface QuizOptionProps {
   state?: AnswerTypes;
 }
 
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles((theme) => ({
+  chip: {
+    "& div": {
+      width: "24px",
+      height: "24px",
+      marginLeft: "5px",
+      marginRight: "-6px",
+    },
+  },
+}));
+
 const QuizOption: React.FC<QuizOptionProps> = ({ text, onClick, state = "unanswered", index }) => {
-  const answerTypeStyles: {
-    [key: string]: {
-      chipVariant: "default" | "outlined";
-      chipStyle: React.CSSProperties | undefined;
-      avatarStyle: React.CSSProperties | undefined;
-      avatarContent: JSX.Element | undefined;
-    };
-  } = {
-    unanswered: {
-      chipVariant: "outlined",
-      chipStyle: undefined,
-      avatarStyle: undefined,
-      avatarContent: undefined,
-    },
-    rightanswer: {
-      chipVariant: "default",
-      chipStyle: { backgroundColor: "#4caf50", color: "black" },
-      avatarStyle: { color: "#357a38", backgroundColor: "white" },
-      avatarContent: <CheckCircleIcon />,
-    },
-    wronganswer: {
-      chipVariant: "default",
-      chipStyle: { backgroundColor: "#f44336", color: "white" },
-      avatarStyle: { color: "#aa2e25", backgroundColor: "white" },
-      avatarContent: <CancelIcon />,
-    },
-    notselectedright: { chipVariant: "default", chipStyle: {}, avatarStyle: {}, avatarContent: <CheckCircleIcon /> },
-    notselectedwrong: { chipVariant: "default", chipStyle: {}, avatarStyle: {}, avatarContent: <CancelIcon /> },
-  };
-  const answerStyle = answerTypeStyles[state];
+  const classes = useStyles();
+  const answerStyle = answerStyles[state];
 
   return (
     <Chip
+      className={classes.chip}
       variant={answerStyle.chipVariant}
-      avatar={<Avatar style={answerStyle.avatarStyle}>{answerStyle.avatarContent || index}</Avatar>}
+      avatar={<QuizAnswerAvatar state={state} defaultText={"" + index} />}
       label={text}
       onClick={onClick ? onClick : () => console.log(state)}
       style={answerStyle.chipStyle}

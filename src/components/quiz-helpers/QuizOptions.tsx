@@ -7,12 +7,12 @@ export interface QuizOption {
   correct: boolean;
 }
 interface QuizOptionsProps {
-  onOptionSelected: (correct: boolean) => void;
+  // onOptionSelected: (correct: boolean) => void;
   options: QuizOption[];
+  selectedIndex?: number | null;
+  setSelectedIndex: (index: number) => void;
 }
-const QuizOptions: React.FC<QuizOptionsProps> = ({ options, onOptionSelected }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
+const QuizOptions: React.FC<QuizOptionsProps> = ({ options, selectedIndex, setSelectedIndex }) => {
   return (
     <>
       {options.map((option, index) => {
@@ -39,7 +39,7 @@ const QuizOptions: React.FC<QuizOptionsProps> = ({ options, onOptionSelected }) 
                     ? () => null
                     : () => {
                         setSelectedIndex(index);
-                        onOptionSelected(option.correct);
+                        // onOptionSelected(option.correct);
                       }
                 }
               />

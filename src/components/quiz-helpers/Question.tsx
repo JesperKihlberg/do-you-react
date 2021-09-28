@@ -1,31 +1,49 @@
-import { Card, CardContent, CardHeader, Grid, Paper, TextField, Typography } from "@material-ui/core";
-import { BorderClearRounded } from "@material-ui/icons";
+import { Card, CardContent, Grid, Paper, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+import Browser from "./Browser";
 import Code from "./Code";
+import QuestionContainer from "./QuestionContainer";
+import { AnswerTypes } from "./QuizOption";
 import QuizOptions, { QuizOption } from "./QuizOptions";
-
 interface QuestionProps {
   codeRequestInfo: RequestInfo;
-  component: JSX.Element;
+  component: React.ComponentType<{ log: (logMessage: string) => void }>;
   questionText: string;
   questionAnswers: QuizOption[];
+  answered: AnswerTypes;
+  setAnswered: (correct: boolean) => void;
+  last: boolean;
+  onShowNext: () => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
-const Question: React.FC<QuestionProps> = ({ codeRequestInfo, component, questionText, questionAnswers }) => {
-  const [answered, setAnswered] = useState(false);
-  console.log("answered", answered);
-  const logOutput = "c\na\nd";
+const Question: React.FC<QuestionProps> = ({
+  codeRequestInfo,
+  component,
+  questionText,
+  questionAnswers,
+  answered,
+  setAnswered,
+  last,
+  onShowNext,
+  open,
+  setOpen,
+}) => {
+  const Component = React.memo(component);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={8}>
-        <Paper elevation={0}>
-          <Code codeRequestInfo={codeRequestInfo} />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <Paper elevation={0}>
+    <QuestionContainer state={answered} last={last} onShowNext={onShowNext} open={open} setOpen={setOpen}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={7}>
+          <Paper elevation={0}>
+            <Code codeRequestInfo={codeRequestInfo} />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={5}>
           <Grid container>
             <Grid item xs={12}>
-              <Card>
+              <Card elevation={3}>
                 <CardContent>
                   <Paper elevation={0} style={{ padding: 8 }}>
                     <Typography variant="body2" component="p">
@@ -35,37 +53,28 @@ const Question: React.FC<QuestionProps> = ({ codeRequestInfo, component, questio
                       Select an answer:
                     </Typography>
                   </Paper>
-                  <QuizOptions onOptionSelected={() => setAnswered(true)} options={questionAnswers} />
+                  <QuizOptions
+                    selectedIndex={selectedIndex}
+                    setSelectedIndex={(index) => {
+                      setSelectedIndex(index);
+                      setAnswered(questionAnswers[index]?.correct);
+                    }}
+                    options={questionAnswers}
+                  />
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12}>
-              {answered && (
-                <Card>
-                  <CardHeader title="Result"></CardHeader>
-                  <CardContent>
-                    <Paper style={{ padding: 8 }} elevation={0}>
-                      {component}
-                    </Paper>
-
-                    <TextField
-                      id="filled-multiline-flexible"
-                      label="Console"
-                      multiline
-                      fullWidth
-                      maxRows={4}
-                      value={logOutput}
-                      disabled
-                      variant="outlined"
-                    />
-                  </CardContent>
-                </Card>
+            <Grid item xs={12} style={{ marginTop: "8px" }}>
+              {answered && answered !== "unanswered" && (
+                <Browser logMessages={questionAnswers.find((x) => x.correct)?.text.split(" ")}>
+                  <Component log={console.log} />
+                </Browser>
               )}
             </Grid>
           </Grid>
-        </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </QuestionContainer>
   );
 };
 
