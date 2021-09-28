@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import QuizOption, { AnswerTypes } from "./QuizOption";
 
-interface QuizOptionsProps {
-  options: { text: string; correct: boolean }[];
+export interface QuizOption {
+  text: string;
+  correct: boolean;
 }
-const QuizOptions: React.FC<QuizOptionsProps> = ({ options }) => {
+interface QuizOptionsProps {
+  onOptionSelected: (correct: boolean) => void;
+  options: QuizOption[];
+}
+const QuizOptions: React.FC<QuizOptionsProps> = ({ options, onOptionSelected }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   return (
@@ -23,13 +28,20 @@ const QuizOptions: React.FC<QuizOptionsProps> = ({ options }) => {
             : "notselectedwrong";
 
         return (
-          <Grid xs={12}>
+          <Grid key={index} item xs={12}>
             <Paper elevation={0} style={{ padding: 8 }}>
               <QuizOption
                 text={option.text}
                 state={optionState}
                 index={index + 1}
-                onClick={selectedIndex !== null ? () => null : () => setSelectedIndex(index)}
+                onClick={
+                  selectedIndex !== null
+                    ? () => null
+                    : () => {
+                        setSelectedIndex(index);
+                        onOptionSelected(option.correct);
+                      }
+                }
               />
             </Paper>
           </Grid>

@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) =>
     avatar: {
       backgroundColor: theme.palette.primary.main,
     },
+    content: {
+      backgroundColor: theme.palette.augmentColor(grey).main,
+    },
   })
 );
 interface QuestionContainerProps {}
@@ -31,7 +34,7 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ children }) => {
         subheader="Basic component lifecycle"
       ></CardHeader>
       <Collapse in={collapsed} timeout="auto" unmountOnExit>
-        <CardContent>{children}</CardContent>
+        <CardContent className={classes.content}>{children}</CardContent>
       </Collapse>
     </Card>
   );

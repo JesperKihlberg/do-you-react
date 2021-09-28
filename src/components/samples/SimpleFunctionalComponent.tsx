@@ -13,7 +13,7 @@ const simpleFunctionalComponent: React.FC<PlainProps> = (props) => {
     props.log("d");
   }, []);
   props.log("c");
-  return <Chip label="React" />;
+  return <Chip label="Hello React" />;
 };
 //trim
 export default simpleFunctionalComponent; //trim

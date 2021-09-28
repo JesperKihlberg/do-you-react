@@ -1,39 +1,67 @@
-import { Grid, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import { Card, CardContent, CardHeader, Grid, Paper, TextField, Typography } from "@material-ui/core";
+import { BorderClearRounded } from "@material-ui/icons";
+import React, { useState } from "react";
 import Code from "./Code";
-import QuizOptions from "./QuizOptions";
+import QuizOptions, { QuizOption } from "./QuizOptions";
 
 interface QuestionProps {
   codeRequestInfo: RequestInfo;
   component: JSX.Element;
   questionText: string;
-  questionAnswers: string[];
+  questionAnswers: QuizOption[];
 }
 const Question: React.FC<QuestionProps> = ({ codeRequestInfo, component, questionText, questionAnswers }) => {
+  const [answered, setAnswered] = useState(false);
+  console.log("answered", answered);
+  const logOutput = "c\na\nd";
   return (
     <Grid container spacing={2}>
-      <Grid xs={12} md={8}>
-        <Paper elevation={0} style={{ paddingBottom: 8, margin: 8 }}>
+      <Grid item xs={12} md={8}>
+        <Paper elevation={0}>
           <Code codeRequestInfo={codeRequestInfo} />
         </Paper>
       </Grid>
-      <Grid xs={12} md={4} style={{ paddingBottom: 24 }}>
-        <Paper elevation={0} style={{ paddingLeft: 16, margin: 8, marginBottom: 16, height: "100%" }}>
+      <Grid item xs={12} md={4}>
+        <Paper elevation={0}>
           <Grid container>
-            <Grid xs={12}>
-              <Paper elevation={0} style={{ padding: 8 }}>
-                <Typography variant="body2">{questionText}</Typography>
-              </Paper>
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <Paper elevation={0} style={{ padding: 8 }}>
+                    <Typography variant="body2" component="p">
+                      {questionText}
+                    </Typography>
+                    <Typography color="textSecondary" style={{ fontSize: 14 }} gutterBottom>
+                      Select an answer:
+                    </Typography>
+                  </Paper>
+                  <QuizOptions onOptionSelected={() => setAnswered(true)} options={questionAnswers} />
+                </CardContent>
+              </Card>
             </Grid>
-            <QuizOptions
-              options={[
-                { text: "text 1", correct: true },
-                { text: "text 2", correct: false },
-                { text: "text 3", correct: false },
-                { text: "text 4", correct: false },
-                { text: "text 5", correct: false },
-              ]}
-            />
+            <Grid item xs={12}>
+              {answered && (
+                <Card>
+                  <CardHeader title="Result"></CardHeader>
+                  <CardContent>
+                    <Paper style={{ padding: 8 }} elevation={0}>
+                      {component}
+                    </Paper>
+
+                    <TextField
+                      id="filled-multiline-flexible"
+                      label="Console"
+                      multiline
+                      fullWidth
+                      maxRows={4}
+                      value={logOutput}
+                      disabled
+                      variant="outlined"
+                    />
+                  </CardContent>
+                </Card>
+              )}
+            </Grid>
           </Grid>
         </Paper>
       </Grid>

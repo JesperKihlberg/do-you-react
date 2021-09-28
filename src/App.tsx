@@ -45,7 +45,11 @@ const App: React.FC = () => {
             codeRequestInfo={simpleFunctionalComponentText}
             questionText={"What is logged when the component is mounted?"}
             component={<SimpleFunctionalComponent log={(message) => console.log(message)} />}
-            questionAnswers={["a", "b"]}
+            questionAnswers={[
+              { text: "a b c", correct: false },
+              { text: "c a b", correct: false },
+              { text: "c a d", correct: true },
+            ]}
           />
         </QuestionContainer>
       </div>
