@@ -20,8 +20,10 @@ interface QuestionContainerProps {
   onShowNext: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
+  title: string;
+  subheader: string;
 }
-const QuestionContainer: React.FC<QuestionContainerProps> = ({ state, last, onShowNext, open, setOpen, children }) => {
+const QuestionContainer: React.FC<QuestionContainerProps> = ({ state, last, onShowNext, open, setOpen, children, title, subheader }) => {
   const classes = useStyles();
   const answerStyle = answerStyles[state];
 
@@ -31,8 +33,8 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ state, last, onSh
         style={answerStyle.chipStyle}
         onClick={() => setOpen(!open)}
         avatar={<QuizAnswerAvatar state={state} defaultText={"?"} />}
-        title="Question 1"
-        subheader="Basic component lifecycle"
+        title={title}
+        subheader={subheader}
       ></CardHeader>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <CardContent>{children}</CardContent>
@@ -42,7 +44,14 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ state, last, onSh
               Show result
             </Button>
           ) : (
-            <Button variant="contained" color="primary" onClick={() => setOpen(false)} disabled={state === "unanswered"}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                onShowNext();
+              }}
+              disabled={state === "unanswered"}
+            >
               Show next
             </Button>
           )}

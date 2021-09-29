@@ -1,11 +1,11 @@
-﻿const simpleFunctionalComponent: React.FC<PlainProps> = (props) => {
+﻿const SimpleFunctionalComponent: React.FC = () => {
   useEffect(() => {
-    props.log("a");
-    return () => props.log("b");
+    console.log("a");
+    return () => console.log("b");
   });
   useEffect(() => {
-    props.log("d");
+    console.log("d");
   }, []);
-  props.log("c");
-  return <Chip label="React" />;
+  console.log("c");
+  return <Chip label="Hello React" />;
 };

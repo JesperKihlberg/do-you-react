@@ -1,20 +1,17 @@
 import { Chip } from "@material-ui/core"; //trim
 import React, { useEffect } from "react"; //trim
-import SampleProps from "../sample-helpers/SampleProps"; //trim
 //trim
-interface PlainProps extends SampleProps {} //trim
-//trim
-const simpleFunctionalComponent: React.FC<PlainProps> = (props) => {
+const SimpleFunctionalComponent: React.FC = () => {
   useEffect(() => {
-    props.log("a");
-    return () => props.log("b");
+    console.log("a");
+    return () => console.log("b");
   });
   useEffect(() => {
-    props.log("d");
+    console.log("d");
   }, []);
-  props.log("c");
+  console.log("c");
   return <Chip label="Hello React" />;
 };
 //trim
-export default simpleFunctionalComponent; //trim
+export default SimpleFunctionalComponent; //trim
 //trim

@@ -11,6 +11,8 @@ interface QuestionProps {
   questionText: string;
   questionAnswers: QuizOption[];
   answered: AnswerTypes;
+  headerTitle: string;
+  subheader: string;
   setAnswered: (correct: boolean) => void;
   last: boolean;
   onShowNext: () => void;
@@ -22,6 +24,8 @@ const Question: React.FC<QuestionProps> = ({
   component,
   questionText,
   questionAnswers,
+  headerTitle,
+  subheader,
   answered,
   setAnswered,
   last,
@@ -33,7 +37,15 @@ const Question: React.FC<QuestionProps> = ({
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   return (
-    <QuestionContainer state={answered} last={last} onShowNext={onShowNext} open={open} setOpen={setOpen}>
+    <QuestionContainer
+      state={answered}
+      last={last}
+      onShowNext={onShowNext}
+      open={open}
+      setOpen={setOpen}
+      title={headerTitle}
+      subheader={subheader}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} md={7}>
           <Paper elevation={0}>
