@@ -5,7 +5,7 @@ const UseStateComponent2: React.FC = () => {
   const [count, setCount] = useState(0);
   useEffect(() => {
     console.log("a");
-    count < 1 && setCount((count) => count + 1);
+    count < 5 && setCount((count) => count + 1);
   });
   console.log("b");
   return <Chip label={"Hello React " + count} />;
