@@ -129,7 +129,7 @@ const Browser: React.FC<BrowserProps> = ({ children, logMessages }) => {
           </div>
         </div>
         <div className={classes.logContent}>
-          {logMessages?.map((logMessage, index) => (
+          {logMessages?.slice(0, 10)?.map((logMessage, index) => (
             <div key={index}>
               {logMessage}
               <span>index.js:112</span>

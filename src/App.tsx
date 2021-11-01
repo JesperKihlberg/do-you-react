@@ -8,6 +8,7 @@ import UseStateComponent3 from "./components/samples/UseStateComponent3";
 import UseStateComponent4 from "./components/samples/UseStateComponent4";
 import UseStateComponent5 from "./components/samples/UseStateComponent5";
 import UseStateComponent6 from "./components/samples/UseStateComponent6";
+import UseStateComponent7 from "./components/samples/UseStateComponent7";
 
 var SimpleFunctionalComponentText = require("../public/samples/SimpleFunctionalComponent.txt");
 var UseStateComponentComponentText1 = require("../public/samples/UseStateComponent1.txt");
@@ -16,6 +17,7 @@ var UseStateComponentComponentText3 = require("../public/samples/UseStateCompone
 var UseStateComponentComponentText4 = require("../public/samples/UseStateComponent4.txt");
 var UseStateComponentComponentText5 = require("../public/samples/UseStateComponent5.txt");
 var UseStateComponentComponentText6 = require("../public/samples/UseStateComponent6.txt");
+var UseStateComponentComponentText7 = require("../public/samples/UseStateComponent7.txt");
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -140,6 +142,20 @@ const App: React.FC = () => {
                 { text: "b a b", correct: false },
                 { text: "b a b a", correct: false },
                 { text: "b a b a b a b a b a b a b a .. (Infinite loop)", correct: true },
+              ],
+            },
+            {
+              subheader: "useState/useEffect - object - guard",
+              codeRequestInfo: UseStateComponentComponentText7,
+              questionText: "What is logged when the component is mounted?",
+              component: UseStateComponent7,
+              questionAnswers: [
+                { text: "b", correct: false },
+                { text: "a b", correct: false },
+                { text: "b a", correct: false },
+                { text: "b a b", correct: true },
+                { text: "b a b a", correct: false },
+                { text: "b a b a b a b a b a b a b a .. (Infinite loop)", correct: false },
               ],
             },
           ]}

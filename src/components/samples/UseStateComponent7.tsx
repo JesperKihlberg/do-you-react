@@ -2,11 +2,12 @@ import { Chip } from "@material-ui/core"; //trim
 import React, { useEffect, useState } from "react"; //trim
 //trim
 const UseStateComponent: React.FC = () => {
-  const [count, setCount] = useState(0);
+  const [element, setCount] = useState({ count: 0 });
+  const count = element.count;
   useEffect(() => {
     console.log("a");
-    count < 5 && setCount((count) => count + 1);
-  });
+    setCount((prev) => ({ count: prev.count }));
+  }, [count]);
   console.log("b");
   return <Chip label={"Hello React " + count} />;
 };

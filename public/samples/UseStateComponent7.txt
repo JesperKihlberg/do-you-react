@@ -1,0 +1,10 @@
+const UseStateComponent: React.FC = () => {
+  const [element, setCount] = useState({ count: 0 });
+  const count = element.count;
+  useEffect(() => {
+    console.log("a");
+    setCount((prev) => ({ count: prev.count }));
+  }, [count]);
+  console.log("b");
+  return <Chip label={"Hello React " + count} />;
+};
